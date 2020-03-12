@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
@@ -41,6 +42,11 @@ class RedshopControllerCart extends RedshopController
         $app                      = \JFactory::getApplication();
         $post                     = $app->input->post->getArray();
         $parentAccessoryProductId = $post['product_id'];
+        $addToCartWorkflow = \Redshop\Workflow\Helper::getWorkflow('AddToCart', $post);
+
+        echo '<pre>';
+        var_dump($addToCartWorkflow);
+        exit;
 
         // Invalid request then redirect to dashboard
         if (empty($app->input->post->getInt('product_id')) || empty($app->input->post->getInt('quantity'))) {
@@ -85,7 +91,7 @@ class RedshopControllerCart extends RedshopController
                 $app->redirect(
                     \JRoute::_(
                         'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid='
-                        . $post['category_id'] . '&Itemid=' . $productItemId,
+                            . $post['category_id'] . '&Itemid=' . $productItemId,
                         false
                     )
                 );
@@ -137,13 +143,22 @@ class RedshopControllerCart extends RedshopController
 
                             $app->enqueueMessage($errorMessage, 'error');
 
-                            if (/** @scrutinizer ignore-deprecated */ JError::isError(
-                            /** @scrutinizer ignore-deprecated */ JError::getError()
-                            )) {
-                                $error        = /** @scrutinizer ignore-deprecated */
+                            if (
+                                /** @scrutinizer ignore-deprecated */
+                                JError::isError(
+                                    /** @scrutinizer ignore-deprecated */
+                                    JError::getError()
+                                )
+                            ) {
+                                $error        =
+                                    /** @scrutinizer ignore-deprecated */
                                     JError::getError();
                                 $errorMessage = $error->getMessage();
-                                $app->enqueueMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
+                                $app->enqueueMessage(
+                                    /** @scrutinizer ignore-deprecated */
+                                    $this->getError(),
+                                    'error'
+                                );
                             }
 
                             if ($isAjaxCartBox) {
@@ -362,7 +377,7 @@ class RedshopControllerCart extends RedshopController
         $discountVAT = 0;
         $chktag      = \RedshopHelperCart::taxExemptAddToCart();
 
-        if ((float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag)) {
+        if ((float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag)) {
             if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT')) {
                 $cart['tax_after_discount'] = $tax;
             } else {
@@ -464,7 +479,7 @@ class RedshopControllerCart extends RedshopController
             $msg  = \JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
             $link = \JRoute::_(
                 'index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&lang=' . $language
-                . '&Itemid=' . $itemId,
+                    . '&Itemid=' . $itemId,
                 false
             );
             $this->setRedirect($link, $msg, 'error');
@@ -710,11 +725,11 @@ class RedshopControllerCart extends RedshopController
         \Redshop\Cart\Helper::setCart($cart);
         RedshopHelperCart::cartFinalCalculation();
 
-        ?>
+?>
         <script type="text/javascript">
             window.parent.location.reload();
         </script>
-        <?php
+    <?php
     }
 
     /**
@@ -732,7 +747,7 @@ class RedshopControllerCart extends RedshopController
         <script language="javascript">
             window.parent.location.href = "<?php echo $link ?>";
         </script>
-        <?php
+<?php
         JFactory::getApplication()->close();
     }
 

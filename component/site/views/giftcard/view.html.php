@@ -22,11 +22,6 @@ class RedshopViewGiftcard extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		$workflow = \Redshop\Workflow\Helper::init();
-
-		echo '<pre>';
-		var_dump($workflow);
-		exit;
 		$app = JFactory::getApplication();
 
 		// Request variables

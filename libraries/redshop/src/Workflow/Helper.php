@@ -41,4 +41,41 @@ class Helper
 
         return $workflow;
     }
+
+    public static function getWorkflow($workflow, $params)
+    {
+        if (empty($workflow)) {
+            return false;
+        }
+
+        $workflow = self::parseWorkflowName($workflow);
+
+        try {
+            return call_user_func('\\Redshop\\Workflow\\' . $workflow . '::init', $params);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Format workflow name
+     *
+     * @param [string] $workflow
+     * @return formatted string
+     * @since __DEPLOY_VERSION__
+     */
+    public static function parseWorkflowName($workflow)
+    {
+        $workflow = trim($workflow);
+        $workflow = str_replace('_', '', $workflow);
+        $workflow = str_replace(' ', '', $workflow);
+        $workflow = strip_tags($workflow);
+
+        $workflow = preg_replace("/[^A-Za-z0-9 ]/", '', $workflow);
+
+        return $workflow;
+    }
 }
