@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  View
@@ -14,13 +15,18 @@ defined('_JEXEC') or die;
  */
 class RedshopViewGiftcard extends RedshopView
 {
-    /**
-     * @param null $tpl
-     * @return mixed|void
-     * @throws Exception
-     */
+	/**
+	 * @param null $tpl
+	 * @return mixed|void
+	 * @throws Exception
+	 */
 	public function display($tpl = null)
 	{
+		$workflow = \Redshop\Workflow\Helper::init();
+
+		echo '<pre>';
+		var_dump($workflow);
+		exit;
 		$app = JFactory::getApplication();
 
 		// Request variables

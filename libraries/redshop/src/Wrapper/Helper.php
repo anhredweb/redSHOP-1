@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedShop
  * @subpackage  Helper
@@ -30,10 +31,8 @@ class Helper
         $wrapperVat = 0;
         $wrappers  = array();
 
-        if (count($wrapper) > 0)
-        {
-            if ($wrapper[0]->wrapper_price > 0)
-            {
+        if (count($wrapper) > 0) {
+            if ($wrapper[0]->wrapper_price > 0) {
                 $wrapperVat = \RedshopHelperProduct::getProductTax($cart['product_id'], $wrapper[0]->wrapper_price);
             }
 
@@ -78,8 +77,10 @@ class Helper
      */
     public static function removeWrappers($wrapperIds = [])
     {
-        if (is_array($wrapperIds)
-            && (count($wrapperIds) > 0)) {
+        if (
+            is_array($wrapperIds)
+            && (count($wrapperIds) > 0)
+        ) {
 
             $db = \JFactory::getDbo();
             $query = $db->getQuery(true);
@@ -101,8 +102,10 @@ class Helper
      */
     public static function setPublishStatus($wrapperIds = [], $publish = 1)
     {
-        if (is_array($wrapperIds)
-            && (count($wrapperIds) > 0)) {
+        if (
+            is_array($wrapperIds)
+            && (count($wrapperIds) > 0)
+        ) {
 
             $db = \JFactory::getDbo();
             $query = $db->getQuery(true);
