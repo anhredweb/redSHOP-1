@@ -683,12 +683,13 @@ class RedshopHelperProduct
      *
      * @param   int  $productId  Product Id
      * @param   int  $userId     User Id
+     * @param   bool $isApplyTax Apply vat or not
      *
      * @return  mixed  Redshop Layout
      *
      * @since   2.0.5
      */
-    public static function getProductQuantityPrice($productId, $userId)
+    public static function getProductQuantityPrice($productId, $userId, $isApplyTax = true)
     {
         $db      = JFactory::getDbo();
         $userArr = JFactory::getSession()->get('rs_user');
@@ -732,7 +733,8 @@ class RedshopHelperProduct
             array(
                 'result'    => $result,
                 'productId' => $productId,
-                'userId'    => $userId
+                'userId'    => $userId,
+                'isApplyTax'=> $isApplyTax
             ),
             '',
             array(
@@ -911,7 +913,7 @@ class RedshopHelperProduct
         $db = JFactory::getDbo();
 
         $totalRating = $db->getQuery(true)
-            ->select('count(rating_id)')
+            ->select('count(id)')
             ->from($db->qn('#__redshop_product_rating'))
             ->where("product_id = $productId");
 
@@ -5018,8 +5020,8 @@ class RedshopHelperProduct
             ->where($db->qn('pr.product_id') . ' = ' . (int)$productId)
             ->where($db->qn('pr.published') . ' = 1')
             ->where($db->qn('pr.email') . ' != ' . $db->q(''))
-            ->order($db->qn('pr.favoured') . ' DESC')
-            ->group($db->qn('pr.rating_id'));
+            ->order($db->qn('pr.time') . ' DESC')
+            ->group($db->qn('pr.id'));
 
         try {
             $reviews = $db->setQuery($query)->loadObjectList();
