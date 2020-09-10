@@ -95,7 +95,7 @@ $model = $this->getModel('stockimage');
                     Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                 );
 
-                $link = JRoute::_('index.php?option=com_redshop&view=stockimage_detail&task=edit&cid[]=' . $row->id); ?>
+                $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=stockimage_detail&task=edit&cid[]=' . $row->id); ?>
                 <tr class="<?php echo "row$k"; ?>">
                     <td><?php echo $this->pagination->getRowOffset($i); ?></td>
                     <td><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
@@ -107,7 +107,7 @@ $model = $this->getModel('stockimage');
                     <td><img src="<?php echo $thumbUrl ?>"/></td>
                     <td><?php echo $row->stock_quantity; ?></td>
                     <td><?php echo $model->getStockAmountOption($row->stock_option); ?></td>
-                    <td><?php echo $row->stockroom_name; ?></td>
+                    <td><?php echo $row->name; ?></td>
                     <td><?php echo $row->stock_amount_id; ?></td>
                 </tr>
                 <?php $k = 1 - $k;

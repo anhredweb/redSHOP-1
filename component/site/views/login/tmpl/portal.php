@@ -37,7 +37,7 @@ $portalintro = "";
 
 if ($shoppergroupid != 0) {
     $portallogo  = RedshopHelperMedia::getImagePath(
-        $this->ShopperGroupDetail[0]->shopper_group_logo,
+        $this->ShopperGroupDetail[0]->logo,
         '',
         'thumb',
         'shopperlogo',
@@ -45,12 +45,12 @@ if ($shoppergroupid != 0) {
         Redshop::getConfig()->get('THUMB_HEIGHT'),
         Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
     );
-    $portalname  = $this->ShopperGroupDetail[0]->shopper_group_name;
-    $portalintro = $this->ShopperGroupDetail[0]->shopper_group_introtext;
+    $portalname  = $this->ShopperGroupDetail[0]->name;
+    $portalintro = $this->ShopperGroupDetail[0]->introtext;
 }
 
 ?>
-<form action="<?php echo JRoute::_($loginlink); ?>" method="post">
+<form action="<?php echo Redshop\IO\Route::_($loginlink); ?>" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td colspan="2" align="center">

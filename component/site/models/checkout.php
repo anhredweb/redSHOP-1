@@ -176,7 +176,7 @@ class RedshopModelCheckout extends RedshopModel
      *
      * @throws Exception
      */
-    public function orderplace()
+    public function orderPlace()
     {
         $app              = JFactory::getApplication();
         $input            = $app->input;
@@ -211,7 +211,7 @@ class RedshopModelCheckout extends RedshopModel
 
         // If user subscribe for the newsletter
         if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1) {
-            RedshopHelperNewsletter::subscribe();
+            RedshopHelperNewsletter::subscribe(0, array(), true);
         }
 
         // If user unsubscribe for the newsletter
@@ -258,7 +258,7 @@ class RedshopModelCheckout extends RedshopModel
 
         if ($cart['idx'] < 1) {
             $msg = JText::_('COM_REDSHOP_EMPTY_CART');
-            $app->redirect(JRoute::_('index.php?option=com_redshop&Itemid=' . $Itemid), $msg);
+            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&Itemid=' . $Itemid), $msg);
         }
 
         $shipping_rate_id = '';

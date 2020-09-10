@@ -9,59 +9,45 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelStockroom extends RedshopModel
+/**
+ * Model Stockroom
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopModelStockroom extends RedshopModelForm
 {
-    public function _buildQuery()
-    {
-        $filter  = $this->getState('filter');
-        $orderby = $this->_buildContentOrderBy();
-        $where   = '';
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   2.1.0
+	 */
+	public function save($data)
+	{
+		if ($data['min_stock_amount'] <= 0) {
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(JText::_('COM_REDSHOP_PLEASE_ENTER_MIN_STOCK_AMOUNT_NOT_LESS_THAN_ZERO'));
+			return false;
+		}
 
-        if ($filter) {
-            $where = " WHERE stockroom_name like '%" . $filter . "%' ";
-        }
+		if ($data['min_del_time'] < 0 || $data['min_del_time'] < 0) {
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(JText::_('COM_REDSHOP_PLEASE_ENTER_DELIVERY_TIME_NOT_LESS_THAN_ZERO'));
+			return false;
+		}
 
-        $query = "SELECT distinct(s.stockroom_id),s.* FROM #__redshop_stockroom s" . $where . $orderby;
+		if ($data['min_del_time'] > $data['max_del_time']) {
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(JText::_('COM_REDSHOP_MIN_DELIVERY_TIME_NOT_LESS_MAX_DELIVERY_TIME'));
 
-        return $query;
-    }
+			return false;
+		}
 
-    /**
-     * Method to get a store id based on model configuration state.
-     *
-     * This is necessary because the model is used by the component and
-     * different modules that might need different sets of data or different
-     * ordering requirements.
-     *
-     * @param   string  $id  A prefix for the store id.
-     *
-     * @return  string  A store id.
-     *
-     * @since   1.5
-     */
-    protected function getStoreId($id = '')
-    {
-        $id .= ':' . $this->getState('filter');
-
-        return parent::getStoreId($id);
-    }
-
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     *
-     * @note    Calling getState in this method will result in recursion.
-     */
-    protected function populateState($ordering = 'stockroom_id', $direction = '')
-    {
-        $filter = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-        $this->setState('filter', $filter);
-
-        parent::populateState($ordering, $direction);
-    }
+		return parent::save($data);
+	}
 }

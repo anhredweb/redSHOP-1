@@ -62,11 +62,11 @@ class RedshopModelNewsletter extends RedshopModel
         $query = $db->getQuery(true)
             ->update($db->qn('#__redshop_newsletter_subscription'))
             ->set($db->qn('published') . ' = 1')
-            ->where($db->qn('subscription_id') . ' = ' . (int)$subscriptionId);
+            ->where($db->qn('id') . ' = ' . (int)$subscriptionId);
         $db->setQuery($query)->execute();
 
         $app->redirect(
-            JRoute::_(JUri::root() . 'index.php?option=com_redshop&view=newsletter'),
+            Redshop\IO\Route::_(JUri::root() . 'index.php?option=com_redshop&view=newsletter'),
             JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE')
         );
     }
@@ -92,7 +92,7 @@ class RedshopModelNewsletter extends RedshopModel
 
         if (!$count) {
             // If there are no newsletter, redirect with message.
-            $app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+            $app->redirect(Redshop\IO\Route::_($link), JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
         }
 
         $user = JFactory::getUser();
@@ -102,7 +102,7 @@ class RedshopModelNewsletter extends RedshopModel
         }
 
         $query->clear()
-            ->select($db->qn('subscription_id'))
+            ->select($db->qn('id'))
             ->from($db->qn('#__redshop_newsletter_subscription'))
             ->where($db->qn('email') . ' = ' . $db->quote($email))
             ->where($db->qn('newsletter_id') . ' = ' . Redshop::getConfig()->getInt('DEFAULT_NEWSLETTER'))

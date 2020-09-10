@@ -33,17 +33,17 @@ if ($module = JModuleHelper::getModule('redshop_login')) {
 
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=login'); ?>" method="post">
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=login'); ?>" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <?php if (isset($this->ShopperGroupDetail[0])) : ?>
             <tr>
                 <td>
-                    <h1><?php echo $this->ShopperGroupDetail[0]->shopper_group_name; ?></h1>
+                    <h1><?php echo $this->ShopperGroupDetail[0]->name; ?></h1>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <strong><?php echo $this->ShopperGroupDetail[0]->shopper_group_introtext; ?></strong>
+                    <strong><?php echo $this->ShopperGroupDetail[0]->introtext; ?></strong>
                 </td>
             </tr>
         <?php endif; ?>

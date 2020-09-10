@@ -23,8 +23,10 @@ if ($mywishlist != '') {
 $params       = $app->getParams('com_redshop');
 $returnitemid = $params->get('login', $Itemid);
 
+$thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
+
 ?>
-<form action="<?php echo JRoute::_($loginlink); ?>" method="post">
+<form action="<?php echo Redshop\IO\Route::_($loginlink); ?>" method="post">
     <div class="redshop-login form-horizontal">
         <p><?php echo JText::_('COM_REDSHOP_LOGIN_DESCRIPTION'); ?></p>
         <div class="form-group">
@@ -39,9 +41,9 @@ $returnitemid = $params->get('login', $Itemid);
 
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-                <a href="<?php echo JRoute::_($newuser_link); ?>">
+                <a href="<?php echo Redshop\IO\Route::_($newuser_link); ?>">
                     <?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
-                        href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
+                        href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=reset'); ?>">
                     <?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?></a>
             </div>
         </div>
@@ -60,3 +62,16 @@ $returnitemid = $params->get('login', $Itemid);
     <input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
     <input type="hidden" name="option" id="option" value="com_redshop"/>
 </form>
+<div class="form-group">
+	<div class="third-party-login ">
+        <?php foreach ($thirdPartyLogin as $login): ?>
+            <?php if (!empty($login['plugin']) && !empty($login['linkLogin'])): ?>
+				<div class="row login-<?php echo $login['plugin'] ?>">
+					<a href="<?php echo $login['linkLogin']; ?>" class="btn btn-primary login-button">
+                        <?php echo ucfirst($login['plugin']) ?>
+					</a>
+				</div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+	</div>
+</div>

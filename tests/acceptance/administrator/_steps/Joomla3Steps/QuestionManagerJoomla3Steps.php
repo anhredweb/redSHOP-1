@@ -156,39 +156,41 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
+		$I->seeElement(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
+		$I->wait(0.5);
 
 		if((isset($user['userName'])))
 		{
-			try
-			{
-				$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
-				$I->wait(1);
-				$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-				$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
-				$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
-				$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
-				$I->click(QuestionManagerJoomla3Page::$sendButton);
-			}catch (\Exception $exception)
-			{
-			}
+			$I->executeJS($productFrontEndManagerPage->jQueryIframe());
+			$I->wait(1);
+			$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
+			$I->wait(0.5);
+			$I->waitForJs('return document.readyState == "complete"', 10);
+			$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
+			$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
+			$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
+			$I->wait(0.2);
+			$I->click(QuestionManagerJoomla3Page::$sendButton);
+			$I->waitForText(QuestionManagerJoomla3Page::$messageSendQuestionSuccess, 30);
 		}else
 		{
-			try
-			{
-				$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
-				$I->wait(1);
-				$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-				$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldNameQuestion, 30);
-				$I->fillField(QuestionManagerJoomla3Page::$fieldNameQuestion, $questionInformation['userName']);
-				$I->fillField(QuestionManagerJoomla3Page::$fieldEmailQuestion, $questionInformation['email']);
-				$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question1']);
-				$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
-				$I->click(QuestionManagerJoomla3Page::$sendButton);
-			}catch (\Exception $exception)
-			{
-			}
+			$I->executeJS($productFrontEndManagerPage->jQueryIframe());
+			$I->wait(1);
+			$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
+			$I->waitForJs('return document.readyState == "complete"', 10);
+			$I->waitForElement(QuestionManagerJoomla3Page::$fieldNameQuestion, 60);
+			$I->seeElement(QuestionManagerJoomla3Page::$fieldNameQuestion);
+			$I->fillField(QuestionManagerJoomla3Page::$fieldNameQuestion, $questionInformation['userName']);
+			$I->fillField(QuestionManagerJoomla3Page::$fieldEmailQuestion, $questionInformation['email']);
+			$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question1']);
+			$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
+			$I->wait(0.2);
+			$I->click(QuestionManagerJoomla3Page::$sendButton);
+			$I->waitForText(QuestionManagerJoomla3Page::$messageSendQuestionSuccess, 30);
 		}
 	}
 
@@ -208,7 +210,6 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(QuestionManagerJoomla3Page::$searchField, 30);
 		$I->fillField(QuestionManagerJoomla3Page::$searchField, $questionInformation['question1']);
 		$I->pressKey(QuestionManagerJoomla3Page::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->wait(0.5);
 		$I->waitForElementVisible(QuestionManagerJoomla3Page::$selectFirst, 30);
 		$I->click(QuestionManagerJoomla3Page::$selectFirst);
 		$I->waitForText(QuestionManagerJoomla3Page::$buttonEdit, 60);

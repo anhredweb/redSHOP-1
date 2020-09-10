@@ -102,7 +102,7 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
         $forgotPwd = RedshopLayoutHelper::render(
             'tags.common.link',
             array(
-                'link'    => JRoute::_('index.php?option=com_users&view=reset'),
+                'link'    => Redshop\IO\Route::_('index.php?option=com_users&view=reset'),
                 'content' => JText::_('COM_REDSHOP_FORGOT_PWD_LINK')
             ),
             '',
@@ -111,10 +111,12 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
 
         $this->addReplace('{forget_password_link}', $forgotPwd);
 
-        $this->template = RedshopLayoutHelper::render(
+        $thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
+        $this->template  = RedshopLayoutHelper::render(
             'tags.login.form',
             array(
-                'content' => $this->template
+                'content' => $this->template,
+                'thirdPartyLogin' => $thirdPartyLogin
             ),
             '',
             $layoutOption

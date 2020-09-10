@@ -52,18 +52,23 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->wantTo("Open the menu types iframe");
 		$I->waitForElementVisible(AdminJ3Page::$buttonSelect, 30);
 		$I->click(AdminJ3Page::$buttonSelect);
-		$I->waitForElement(AdminJ3Page::$menuTypeModal, 5);
+		$I->waitForElement(AdminJ3Page::$menuTypeModal, 30);
 		$I->executeJS(AdminJ3Page::jQueryIframeMenuType());
 		$I->wait(1);
 		$I->switchToIFrame(AdminJ3Page::$menuItemType);
-		$I->wait(1);
+		$I->wait(0.5);
 
 		$I->wantTo("Open the menu category: $menuCategory");
+		$I->waitForElement(AdminJ3Page::getMenuCategory($menuCategory), 30);
+		$I->scrollTo(AdminJ3Page::getMenuCategory($menuCategory), 152, 15);
 		$I->waitForElementVisible(AdminJ3Page::getMenuCategory($menuCategory), 60);
+		$I->seeElement(AdminJ3Page::getMenuCategory($menuCategory));
 		$I->wait(0.5);
 		$I->click(AdminJ3Page::getMenuCategory($menuCategory));
+
 		$I->wantTo("Choose the menu item type: $menuItem");
 		$I->waitForElementVisible(AdminJ3Page::returnMenuItem($menuItem), 30);
+		$I->wait(0.5);
 		$I->click(AdminJ3Page::returnMenuItem($menuItem));
 		$I->wantTo('I switch back to the main window');
 		$I->switchToIFrame();
@@ -168,14 +173,17 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 
 		$I->wantTo("Open the menu types iframe");
 		$I->waitForElementVisible(AdminJ3Page::$buttonSelect, 30);
+		$I->wait(0.5);
 		$I->click(AdminJ3Page::$buttonSelect);
-		$I->waitForElement(AdminJ3Page::$menuTypeModal, 5);
+		$I->waitForElement(AdminJ3Page::$menuTypeModal, 30);
 		$I->executeJS(AdminJ3Page::jQueryIframeMenuType());
-		$I->wait(2);
+		$I->wait(0.5);
 		$I->switchToIFrame(AdminJ3Page::$menuItemType);
+		$I->wait(1);
 
 		$I->wantTo("Open the menu category: $menuCategory");
-		$I->waitForElementVisible(AdminJ3Page::getMenuCategory($menuCategory), 60);
+		$I->waitForElement(AdminJ3Page::getMenuCategory($menuCategory), 60);
+		$I->seeElement(AdminJ3Page::getMenuCategory($menuCategory));
 		$I->wait(0.5);
 		$I->click(AdminJ3Page::getMenuCategory($menuCategory));
 		$I->wantTo("Choose the menu item type: $menuItem");

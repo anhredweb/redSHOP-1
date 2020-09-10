@@ -34,7 +34,7 @@
                 $row = $this->media[$i];
                 $row->id = $row->price_id;
                 //$productId = $row->product_id;
-                $link = JRoute::_(
+                $link = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $row->product_id . '&cid[]=' . $row->price_id
                 ); ?>
                 <tr class="<?php echo "row$k"; ?>">
@@ -45,7 +45,7 @@
                                'COM_REDSHOP_EDIT_PRODUCT_PRICE'
                            ); ?>"><?php echo $row->product_name; ?></a>
                     </td>
-                    <td align="center"><?php echo $row->shopper_group_name; ?></td>
+                    <td align="center"><?php echo $row->name; ?></td>
                     <td align="center"><?php echo $row->price_quantity_start; ?></td>
                     <td align="center"><?php echo $row->price_quantity_end; ?></td>
                     <td align="center"

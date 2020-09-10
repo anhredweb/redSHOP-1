@@ -46,28 +46,21 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->fillInformationPrivate($customerInformation);
-		$I->waitForElementVisible($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']), 30);
-		$I->wait(0.5);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']), 60);
 		$I->click($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']));
-
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
+		$I->wait(0.2);
+		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->wait(0.2);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-
-		try
-		{
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}catch (\Exception $e)
-		{
-			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}
-
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->wait(0.2);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 60);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 
 		$total = $price*$quantity + $shipping['shippingRate'];

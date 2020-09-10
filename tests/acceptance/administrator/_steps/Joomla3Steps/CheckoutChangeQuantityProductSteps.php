@@ -49,9 +49,10 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
 		}
 
-		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$updateCartButton, 30);
-		$I->click(CheckoutChangeQuantityProductPage::$updateCartButton);
-		$I->waitForText($total, 30, FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForText($total, 120, FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->see($total);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$checkoutButton, 30);
 		$I->click(CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$bankTransfer, 30);
@@ -71,6 +72,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -82,8 +84,8 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
 		$I->wait(0.5);
 		$I->click(CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressAddress, 60);
+		$I->waitForJs('return document.readyState == "complete"', 10);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressAddress, 120);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
@@ -95,27 +97,15 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForText($total, 30, FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 60);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 60);
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
-
-		$I->waitForElement(CheckoutChangeQuantityProductPage::$acceptTerms, 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-		$I->wait(0.5);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->wait(0.2);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-
-		try
-		{
-			$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
-			$I->click(CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30);
-		}catch (\Exception $e)
-		{
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30);
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
-			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-			$I->waitForElement(CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
-			$I->click(CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30);
-		}
+		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+		$I->wait(0.2);
+		$I->click(CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 60);
 	}
 }

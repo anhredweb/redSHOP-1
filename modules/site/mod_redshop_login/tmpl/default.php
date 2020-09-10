@@ -15,7 +15,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="login-form" class="form-inline">
+<form action="<?php echo Redshop\IO\Route::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="login-form" class="form-inline">
     <?php if ($params->get('pretext')) : ?>
     <div class="pretext">
         <p><?php echo $params->get('pretext'); ?></p>
@@ -98,16 +98,16 @@ JHtml::_('bootstrap.tooltip');
         <ul class="unstyled">
             <?php if ($usersConfig->get('allowUserRegistration')) : ?>
             <li>
-                <a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
+                <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=registration'); ?>">
                     <?php echo JText::_('MOD_REDSHOP_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
             </li>
             <?php endif; ?>
             <li>
-                <a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
+                <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=remind'); ?>">
                     <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
             </li>
             <li>
-                <a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
+                <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=reset'); ?>">
                     <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
             </li>
         </ul>
@@ -122,13 +122,15 @@ JHtml::_('bootstrap.tooltip');
     </div>
     <?php endif; ?>
 </form>
-<div class="row login-fb">
-    <a href="<?php echo $loginFbUrl; ?>" class="btn btn-primary login-button">
-        <?php echo \JText::_('MOD_REDSHOP_LOGIN_WITH_FB_BTN') ?>
-    </a>
+<div class="third-party-login">
+    <?php foreach ($thirdPartyLogin as $login): ?>
+        <?php if (!empty($login['plugin']) && !empty($login['linkLogin'])): ?>
+            <div class="row login-<?php echo $login['plugin'] ?>">
+                <a href="<?php echo $login['linkLogin']; ?>" class="btn btn-primary login-button">
+                    <?php echo ucfirst($login['plugin']) ?>
+                </a>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
 </div>
-<div class="row login-gg">
-    <a href="<?php echo $loginGgUrl; ?>" class="btn btn-primary login-button">
-        <?php echo \JText::_('MOD_REDSHOP_LOGIN_WITH_GG_BTN') ?>
-    </a>
-</div>
+

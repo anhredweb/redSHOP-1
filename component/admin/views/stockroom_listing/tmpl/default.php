@@ -33,7 +33,7 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
     Joomla.submitbutton = function (pressbutton) {
         if (pressbutton == "print_data") {
             window.open(
-                "<?php echo JRoute::_(
+                "<?php echo Redshop\IO\Route::_(
                     'index.php?tmpl=component&option=com_redshop&view=stockroom_listing&id=0&showbuttons=1',
                     false
                 );?>", "<?php echo JText::_('COM_REDSHOP_STOCKROOM_LISTING');?>",
@@ -134,12 +134,12 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
                 <?php endif; ?>
                 <?php for ($j = 0; $j < count($this->stockroom); $j++) : ?>
                     <th width="5%">
-                        <?php echo $this->stockroom[$j]->stockroom_name; ?>
+                        <?php echo $this->stockroom[$j]->name; ?>
                         <a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder pull-right"></a>
                     </th>
                     <th width="5%">
                         <?php echo JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'); ?><br/>
-                        <?php echo $this->stockroom[$j]->stockroom_name; ?>
+                        <?php echo $this->stockroom[$j]->name; ?>
                         <a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder pull-right"></a>
                     </th>
                 <?php endfor; ?>
@@ -155,7 +155,7 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
                 $quntotal[$i]            = array(0);
                 $preorder_stocktotal[$i] = array(0);
                 $row                     = $this->resultlisting [$i];
-                $link1                   = JRoute::_(
+                $link1                   = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
                 );
                 ?>
@@ -198,8 +198,8 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
                         $ordered_preorder = 0;
                         $section_id       = ($this->stockroom_type != 'product') ? $row->section_id : $row->product_id;
 
-                        if (isset($this->quantities[$section_id . '.' . $this->stockroom[$j]->stockroom_id])) {
-                            $secrow           = $this->quantities[$section_id . '.' . $this->stockroom[$j]->stockroom_id];
+                        if (isset($this->quantities[$section_id . '.' . $this->stockroom[$j]->id])) {
+                            $secrow           = $this->quantities[$section_id . '.' . $this->stockroom[$j]->id];
                             $quantity         = $secrow->quantity;
                             $preorder_stock   = $secrow->preorder_stock;
                             $ordered_preorder = $secrow->ordered_preorder;
@@ -212,7 +212,7 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
                             <input
                                     type="hidden"
                                     name="sid[]"
-                                    value="<?php echo $this->stockroom[$j]->stockroom_id; ?>"
+                                    value="<?php echo $this->stockroom[$j]->id; ?>"
                             >
                             <input
                                     type="hidden"
